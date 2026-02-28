@@ -10,87 +10,116 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Creator Revenue Calculator Pro</h1>
-        <p>Advanced projections & downloadable reports for serious creators</p>
-    </header>
 
-    <main>
-        <section class="calculator">
-            <!-- Inputs -->
-            <div class="input-group">
-                <label for="views">Monthly Views</label>
-                <input type="number" id="views" placeholder="10000">
-            </div>
-            <div class="input-group">
-                <label for="cpm">CPM ($ per 1000 views)</label>
-                <input type="number" id="cpm" placeholder="2">
-            </div>
-            <div class="input-group">
-                <label for="affiliateCtr">Affiliate CTR (%)</label>
-                <input type="number" id="affiliateCtr" placeholder="2">
-            </div>
-            <div class="input-group">
-                <label for="conversionRate">Affiliate Conversion Rate (%)</label>
-                <input type="number" id="conversionRate" placeholder="5">
-            </div>
-            <div class="input-group">
-                <label for="productPrice">Product Price ($)</label>
-                <input type="number" id="productPrice" placeholder="50">
-            </div>
-            <div class="input-group">
-                <label for="brandDeals">Brand Deals per Month</label>
-                <input type="number" id="brandDeals" placeholder="1">
-            </div>
-            <div class="input-group">
-                <label for="brandRate">Brand Deal Rate ($)</label>
-                <input type="number" id="brandRate" placeholder="500">
-            </div>
-            <div class="input-group">
-                <label for="growthRate">Monthly Growth Rate (%)</label>
-                <input type="number" id="growthRate" placeholder="10">
-            </div>
-            <button id="calculateBtn">Calculate Revenue</button>
-            <button id="downloadBtn">Download PDF Report</button>
-        </section>
+<header style="text-align:center; padding:60px 20px;">
+    <h1 style="font-size:48px;">Know Exactly What Your Content Earns</h1>
+    <p style="margin-top:20px; font-size:18px; color:#94a3b8;">
+        Track every earning. Plan your growth. Export reports that boost your content.
+    </p>
+</header>
 
-        <section class="results">
-            <h2>Revenue Projections</h2>
-            <canvas id="revenueChart" width="400" height="200"></canvas>
-            <div id="projectionResults"></div>
-
-            <!-- Revenue spans for PDF -->
-            <div id="revenueResults">
-                <p>Ad Revenue: $<span id="adRevenue">0.00</span></p>
-                <p>Affiliate Revenue: $<span id="affiliateRevenue">0.00</span></p>
-                <p>Brand Revenue: $<span id="brandRevenue">0.00</span></p>
-                <p>Total Revenue: $<span id="totalRevenue">0.00</span></p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Creator Tools</p>
-    </footer>
-
-    <!-- Modal for free users -->
-    <div id="paywallModal" class="modal hidden">
-        <div class="modal-content">
-            <h2>Upgrade to Pro</h2>
-            <p>Unlock projections, charts, and PDF exports.</p>
-            <!-- Lemon Squeezy Checkout -->
-            <a href="https://your-lemonsqueezy-checkout-url.com" target="_blank">
-                <button id="buyProBtn">Upgrade Now</button>
-            </a>
-            <button id="closeModal">Cancel</button>
+<main style="max-width:900px; margin:auto; padding:40px;">
+    <section class="calculator">
+        <div class="input-group">
+            <label for="currency">Select Currency</label>
+            <select id="currency">
+                <option value="$">USD ($)</option>
+                <option value="₦">NGN (₦)</option>
+                <option value="€">EUR (€)</option>
+                <option value="£">GBP (£)</option>
+                <option value="¥">JPY (¥)</option>
+                <option value="C$">CAD (C$)</option>
+                <option value="A$">AUD (A$)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="₹">INR (₹)</option>
+                <option value="R$">BRL (R$)</option>
+                <option value="₱">PHP (₱)</option>
+                <option value="kr">SEK/DKK/NOK (kr)</option>
+                <option value="₩">KRW (₩)</option>
+                <option value="₴">UAH (₴)</option>
+                <option value="AED">AED (AED)</option>
+                <option value="₺">TRY (₺)</option>
+                <option value="₪">ILS (₪)</option>
+                <option value="₫">VND (₫)</option>
+                <option value="₦">NGN (₦)</option>
+                <option value="฿">THB (฿)</option>
+                <option value="₡">CRC (₡)</option>
+                <option value="₲">PYG (₲)</option>
+                <option value="₵">GHS (₵)</option>
+                <option value="₸">KZT (₸)</option>
+                <option value="₮">MNT (₮)</option>
+            </select>
         </div>
-    </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/calculator.js"></script>
-    <script src="assets/js/projections.js"></script>
-    <script src="assets/js/charts.js"></script>
-    <script src="assets/js/paywall.js"></script>
-    <script src="assets/js/animations.js"></script>
+        <!-- Existing calculator inputs -->
+        <div class="input-group">
+            <label for="views">Monthly Views</label>
+            <input type="number" id="views" placeholder="10000">
+        </div>
+        <div class="input-group">
+            <label for="cpm">CPM (per 1000 views)</label>
+            <input type="number" id="cpm" placeholder="2">
+        </div>
+        <div class="input-group">
+            <label for="affiliateCtr">Affiliate CTR (%)</label>
+            <input type="number" id="affiliateCtr" placeholder="2">
+        </div>
+        <div class="input-group">
+            <label for="conversionRate">Affiliate Conversion Rate (%)</label>
+            <input type="number" id="conversionRate" placeholder="5">
+        </div>
+        <div class="input-group">
+            <label for="productPrice">Product Price</label>
+            <input type="number" id="productPrice" placeholder="50">
+        </div>
+        <div class="input-group">
+            <label for="brandDeals">Brand Deals per Month</label>
+            <input type="number" id="brandDeals" placeholder="1">
+        </div>
+        <div class="input-group">
+            <label for="brandRate">Brand Deal Rate</label>
+            <input type="number" id="brandRate" placeholder="500">
+        </div>
+        <div class="input-group">
+            <label for="growthRate">Monthly Growth Rate (%)</label>
+            <input type="number" id="growthRate" placeholder="10">
+        </div>
+
+        <button id="calculateBtn">Calculate Revenue</button>
+        <button id="downloadBtn">Download PDF Report</button>
+    </section>
+
+    <section class="results" style="margin-top:40px;">
+        <h2>Revenue Projections</h2>
+        <canvas id="revenueChart" width="400" height="200"></canvas>
+        <div id="projectionResults">
+            <p>Ad Revenue: <span id="adRevenue">0.00</span></p>
+            <p>Affiliate Revenue: <span id="affiliateRevenue">0.00</span></p>
+            <p>Brand Revenue: <span id="brandRevenue">0.00</span></p>
+            <p>Total Revenue: <span id="totalRevenue">0.00</span></p>
+        </div>
+    </section>
+</main>
+
+<footer style="text-align:center; padding:40px 20px;">
+    <p>&copy; 2026 Creator Tools</p>
+</footer>
+
+<div id="paywallModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Upgrade to Pro</h2>
+        <p>Unlock projections, charts, and PDF exports.</p>
+        <a href="https://your-lemonsqueezy-checkout-url.com" target="_blank">
+            <button id="buyProBtn">Upgrade Now</button>
+        </a>
+        <button id="closeModal">Cancel</button>
+    </div>
+</div>
+
+<script src="assets/js/calculator.js"></script>
+<script src="assets/js/projections.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/paywall.js"></script>
+
 </body>
 </html>

@@ -1,26 +1,61 @@
-document.getElementById('calculateBtn').addEventListener('click', function() {
-    // Get inputs
-    const views = parseFloat(document.getElementById('views').value) || 0;
-    const cpm = parseFloat(document.getElementById('cpm').value) || 0;
-    const affiliateCtr = parseFloat(document.getElementById('affiliateCtr').value) || 0;
-    const conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
-    const productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
-    const brandDeals = parseFloat(document.getElementById('brandDeals').value) || 0;
-    const brandRate = parseFloat(document.getElementById('brandRate').value) || 0;
-
-    // Calculate revenues
-    const adRevenue = (views / 1000) * cpm;
-    const affiliateRevenue = views * (affiliateCtr/100) * (conversionRate/100) * productPrice;
-    const brandRevenue = brandDeals * brandRate;
-
-    const totalRevenue = adRevenue + affiliateRevenue + brandRevenue;
-
-    // Update results
-    document.getElementById('adRevenue').textContent = adRevenue.toFixed(2);
-    document.getElementById('affiliateRevenue').textContent = affiliateRevenue.toFixed(2);
-    document.getElementById('brandRevenue').textContent = brandRevenue.toFixed(2);
-    animateValue(document.getElementById('totalRevenue'), 0, totalRevenue, 1000);
-    animateValue(document.getElementById('adRevenue'), 0, adRevenue, 1000);
-    animateValue(document.getElementById('affiliateRevenue'), 0, affiliateRevenue, 1000);
-    animateValue(document.getElementById('brandRevenue'), 0, brandRevenue, 1000);
+// ----------------------------
+// Currency support
+// ----------------------------
+let currencySymbol = "$"; // default
+const currencySelect = document.getElementById('currency');
+currencySelect.addEventListener('change', () => {
+    currencySymbol = currencySelect.value;
+    calculateRevenue(); // recalc to update display
 });
+
+// ----------------------------
+// Example: updating revenue outputs dynamically
+// ----------------------------
+function updateResults(adRevenue, affiliateRevenue, brandRevenue, totalRevenue) {
+    const adEl = document.getElementById('adRevenue');
+    const affEl = document.getElementById('affiliateRevenue');
+    const brandEl = document.getElementById('brandRevenue');
+    const totalEl = document.getElementById('totalRevenue');
+
+    animateValue(adEl, 0, adRevenue, 1000, currencySymbol);
+    animateValue(affEl, 0, affiliateRevenue, 1000, currencySymbol);
+    animateValue(brandEl, 0, brandRevenue, 1000, currencySymbol);
+    animateValue(totalEl, 0, totalRevenue, 1000, currencySymbol);
+}
+
+// ----------------------------
+// animateValue helper
+// ----------------------------
+function animateValue(el, start, end, duration, symbol = "$") {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        el.textContent = symbol + (start + (end - start) * progress).toFixed(2);
+        if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+}
+
+// ----------------------------
+// PDF Generation
+// ----------------------------
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Creator Revenue Report", 20, 20);
+
+    const adRevenue = document.getElementById('adRevenue').textContent;
+    const affiliateRevenue = document.getElementById('affiliateRevenue').textContent;
+    const brandRevenue = document.getElementById('brandRevenue').textContent;
+    const totalRevenue = document.getElementById('totalRevenue').textContent;
+
+    doc.setFontSize(14);
+    doc.text(`Ad Revenue: ${adRevenue}`, 20, 40);
+    doc.text(`Affiliate Revenue: ${affiliateRevenue}`, 20, 50);
+    doc.text(`Brand Revenue: ${brandRevenue}`, 20, 60);
+    doc.text(`Total Revenue: ${totalRevenue}`, 20, 80);
+
+    doc.save("Revenue_Report.pdf");
+}
