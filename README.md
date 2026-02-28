@@ -31,9 +31,9 @@ It includes advanced features like **growth projections, chart visualization, an
 ```text
 creator-revenue-calculator/
 │
-├── index.html           # Free calculator
+├── free.html           # Free calculator
 ├── pro.html             # Advanced calculator
-├── landing.html         # Landing page for promotion
+├── index.html         # Landing page for promotion
 ├── assets/
 │   ├── css/
 │   │   └── styles.css
