@@ -1,30 +1,51 @@
 // ----------------------------
 // Currency support
 // ----------------------------
-let currencySymbol = "$"; // default
 const currencySelect = document.getElementById('currency');
+let currencySymbol = currencySelect.value; // initial selection
+
 currencySelect.addEventListener('change', () => {
     currencySymbol = currencySelect.value;
-    calculateRevenue(); // recalc to update display
+    calculateRevenue(); // recalc on currency change
 });
 
 // ----------------------------
-// Example: updating revenue outputs dynamically
+// Example: calculate revenue
 // ----------------------------
-function updateResults(adRevenue, affiliateRevenue, brandRevenue, totalRevenue) {
-    const adEl = document.getElementById('adRevenue');
-    const affEl = document.getElementById('affiliateRevenue');
-    const brandEl = document.getElementById('brandRevenue');
-    const totalEl = document.getElementById('totalRevenue');
+function calculateRevenue() {
+    const views = parseFloat(document.getElementById('views').value) || 0;
+    const cpm = parseFloat(document.getElementById('cpm').value) || 0;
+    const affiliateCtr = parseFloat(document.getElementById('affiliateCtr').value) || 0;
+    const conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+    const productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
+    const brandDeals = parseFloat(document.getElementById('brandDeals').value) || 0;
+    const brandRate = parseFloat(document.getElementById('brandRate').value) || 0;
+    const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
 
-    animateValue(adEl, 0, adRevenue, 1000, currencySymbol);
-    animateValue(affEl, 0, affiliateRevenue, 1000, currencySymbol);
-    animateValue(brandEl, 0, brandRevenue, 1000, currencySymbol);
-    animateValue(totalEl, 0, totalRevenue, 1000, currencySymbol);
+    // Revenue calculations
+    const adRevenue = (views / 1000) * cpm;
+    const affiliateRevenue = views * (affiliateCtr/100) * (conversionRate/100) * productPrice;
+    const brandRevenue = brandDeals * brandRate;
+    const totalRevenue = adRevenue + affiliateRevenue + brandRevenue;
+
+    // Update results dynamically
+    updateResults(adRevenue, affiliateRevenue, brandRevenue, totalRevenue);
+
+    // TODO: optionally update chart
 }
 
 // ----------------------------
-// animateValue helper
+// Update DOM with animation
+// ----------------------------
+function updateResults(adRevenue, affiliateRevenue, brandRevenue, totalRevenue) {
+    animateValue(document.getElementById('adRevenue'), 0, adRevenue, 1000, currencySymbol);
+    animateValue(document.getElementById('affiliateRevenue'), 0, affiliateRevenue, 1000, currencySymbol);
+    animateValue(document.getElementById('brandRevenue'), 0, brandRevenue, 1000, currencySymbol);
+    animateValue(document.getElementById('totalRevenue'), 0, totalRevenue, 1000, currencySymbol);
+}
+
+// ----------------------------
+// Animate number helper
 // ----------------------------
 function animateValue(el, start, end, duration, symbol = "$") {
     let startTimestamp = null;
@@ -38,8 +59,18 @@ function animateValue(el, start, end, duration, symbol = "$") {
 }
 
 // ----------------------------
-// PDF Generation
+// Download PDF using jsPDF
 // ----------------------------
+const downloadBtn = document.getElementById('downloadBtn');
+downloadBtn.addEventListener('click', () => {
+    if (!isProUser) {
+        // Show paywall modal
+        document.getElementById('paywallModal').classList.remove('hidden');
+    } else {
+        generatePDF();
+    }
+});
+
 function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -59,3 +90,10 @@ function generatePDF() {
 
     doc.save("Revenue_Report.pdf");
 }
+
+// ----------------------------
+// Paywall modal close
+// ----------------------------
+document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('paywallModal').classList.add('hidden');
+});
