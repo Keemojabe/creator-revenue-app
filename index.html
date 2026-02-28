@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Revenue Calculator</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="assets/js/animations.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Creator Revenue Calculator</h1>
+        <p>Estimate your monthly revenue from ads, affiliates, and brand deals</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <div class="input-group">
+                <label for="views">Monthly Views</label>
+                <input type="number" id="views" placeholder="10000">
+            </div>
+
+            <div class="input-group">
+                <label for="cpm">CPM ($ per 1000 views)</label>
+                <input type="number" id="cpm" placeholder="2">
+            </div>
+
+            <div class="input-group">
+                <label for="affiliateCtr">Affiliate CTR (%)</label>
+                <input type="number" id="affiliateCtr" placeholder="2">
+            </div>
+
+            <div class="input-group">
+                <label for="conversionRate">Affiliate Conversion Rate (%)</label>
+                <input type="number" id="conversionRate" placeholder="5">
+            </div>
+
+            <div class="input-group">
+                <label for="productPrice">Product Price ($)</label>
+                <input type="number" id="productPrice" placeholder="50">
+            </div>
+
+            <div class="input-group">
+                <label for="brandDeals">Brand Deals per Month</label>
+                <input type="number" id="brandDeals" placeholder="1">
+            </div>
+
+            <div class="input-group">
+                <label for="brandRate">Brand Deal Rate ($)</label>
+                <input type="number" id="brandRate" placeholder="500">
+            </div>
+
+            <button id="calculateBtn">Calculate Revenue</button>
+        </section>
+
+        <section class="results">
+            <h2>Projected Revenue</h2>
+            <p>Ad Revenue: $<span id="adRevenue">0</span></p>
+            <p>Affiliate Revenue: $<span id="affiliateRevenue">0</span></p>
+            <p>Brand Revenue: $<span id="brandRevenue">0</span></p>
+            <hr>
+            <p><strong>Total Revenue: $<span id="totalRevenue">0</span></strong></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Creator Tools</p>
+    </footer>
+
+    <script src="assets/js/calculator.js"></script>
+    <script src="assets/js/animations.js"></script>
+</body>
+</html>
