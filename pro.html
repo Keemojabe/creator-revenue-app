@@ -1,96 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creator Revenue Calculator Pro</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Creator Revenue Calculator Pro</h1>
-        <p>Estimate your monthly revenue from ads, affiliates, and brand deals</p>
-    </header>
 
-    <main>
-        <section class="calculator">
-            <!-- Inputs -->
-            <div class="input-group">
-                <label for="views">Monthly Views</label>
-                <input type="number" id="views" placeholder="10000">
-            </div>
-            <div class="input-group">
-                <label for="cpm">CPM ($ per 1000 views)</label>
-                <input type="number" id="cpm" placeholder="2">
-            </div>
-            <div class="input-group">
-                <label for="affiliateCtr">Affiliate CTR (%)</label>
-                <input type="number" id="affiliateCtr" placeholder="2">
-            </div>
-            <div class="input-group">
-                <label for="conversionRate">Affiliate Conversion Rate (%)</label>
-                <input type="number" id="conversionRate" placeholder="5">
-            </div>
-            <div class="input-group">
-                <label for="productPrice">Product Price ($)</label>
-                <input type="number" id="productPrice" placeholder="50">
-            </div>
-            <div class="input-group">
-                <label for="brandDeals">Brand Deals per Month</label>
-                <input type="number" id="brandDeals" placeholder="1">
-            </div>
-            <div class="input-group">
-                <label for="brandRate">Brand Deal Rate ($)</label>
-                <input type="number" id="brandRate" placeholder="500">
-            </div>
-            <div class="input-group">
-                <label for="growthRate">Monthly Growth Rate (%)</label>
-                <input type="number" id="growthRate" placeholder="10">
-            </div>
-            <button id="calculateBtn">Calculate Revenue</button>
-            <button id="downloadBtn">Download PDF Report</button>
-        </section>
+<header>
+    <h1>Creator Revenue Calculator</h1>
+    <p>Forecast your creator income like a pro.</p>
+</header>
 
-        <section class="results">
-            <h2>Revenue Projections</h2>
-            <canvas id="revenueChart" width="400" height="200"></canvas>
-            <div id="projectionResults"></div>
+<main>
 
-            <!-- Revenue spans for PDF -->
-            <div id="revenueResults">
-                <p>Ad Revenue: $<span id="adRevenue">0.00</span></p>
-                <p>Affiliate Revenue: $<span id="affiliateRevenue">0.00</span></p>
-                <p>Brand Revenue: $<span id="brandRevenue">0.00</span></p>
-                <p>Total Revenue: $<span id="totalRevenue">0.00</span></p>
-            </div>
-        </section>
-    </main>
+<section class="calculator">
 
-    <footer>
-        <p>&copy; 2026 Creator Tools</p>
-    </footer>
+    <h2>Ads Revenue</h2>
 
-    <!-- Modal for free users -->
-    <div id="paywallModal" class="modal hidden">
-        <div class="modal-content">
-            <h2>Upgrade to Pro</h2>
-            <p>Unlock projections, charts, and PDF exports.</p>
-            <!-- Lemon Squeezy Checkout -->
-            <a href="https://your-lemonsqueezy-checkout-url.com" target="_blank">
-                <button id="buyProBtn">Upgrade Now</button>
-            </a>
-            <button id="closeModal">Cancel</button>
-        </div>
+    <div class="input-group">
+        <label for="views">Monthly Views</label>
+        <input type="number" id="views" placeholder="10000">
     </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/calculator.js"></script>
-    <script src="assets/js/projections.js"></script>
-    <script src="assets/js/charts.js"></script>
-    <script src="assets/js/paywall.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <div class="input-group">
+        <label for="cpm">CPM ($ per 1,000 views)</label>
+        <input type="number" id="cpm" placeholder="2 – 8">
+    </div>
+
+    <h2 style="margin-top:30px;">Affiliate Revenue</h2>
+
+    <div class="input-group">
+        <label for="affiliateCtr">Affiliate Link CTR (%)</label>
+        <input type="number" id="affiliateCtr" placeholder="1 – 5">
+    </div>
+
+    <div class="input-group">
+        <label for="conversionRate">Affiliate Purchase Conversion (%)</label>
+        <input type="number" id="conversionRate" placeholder="2 – 10">
+    </div>
+
+    <div class="input-group">
+        <label for="productPrice">Product Price ($)</label>
+        <input type="number" id="productPrice" placeholder="50">
+    </div>
+
+    <h2 style="margin-top:30px;">Sponsorship Revenue</h2>
+
+    <div class="input-group">
+        <label for="brandDeals">Brand Deals Per Month</label>
+        <input type="number" id="brandDeals" placeholder="1">
+    </div>
+
+    <div class="input-group">
+        <label for="brandFee">Average Brand Deal Fee ($)</label>
+        <input type="number" id="brandFee" placeholder="500">
+    </div>
+
+    <h2 style="margin-top:30px;">Growth Forecast</h2>
+
+    <div class="input-group">
+        <label for="growthRate">Monthly Audience Growth (%)</label>
+        <input type="number" id="growthRate" placeholder="5 – 15">
+    </div>
+
+    <button id="calculateBtn">Calculate Revenue</button>
+    <button id="downloadBtn">Download PDF Report 🔒</button>
+
+</section>
+
+<section class="results">
+    <h2>Revenue Results</h2>
+    <canvas id="revenueChart"></canvas>
+
+    <div id="projectionResults"></div>
+
+    <div id="revenueResults">
+        <p>Ad Revenue: $<span id="adRevenue">0.00</span></p>
+        <p>Affiliate Revenue: $<span id="affiliateRevenue">0.00</span></p>
+        <p>Brand Revenue: $<span id="brandRevenue">0.00</span></p>
+        <p>Total Revenue: $<span id="totalRevenue">0.00</span></p>
+    </div>
+</section>
+
+</main>
+
+<div id="paywallModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Upgrade to Pro</h2>
+        <p>Unlock full 12-month forecasting, interactive charts, and PDF exports.</p>
+        <button id="buyProBtn">Upgrade Now – $9</button>
+        <button id="closeModal">Cancel</button>
+    </div>
+</div>
+
+<script src="assets/js/calculator.js"></script>
+<script src="assets/js/projections.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/paywall.js"></script>
+<script src="assets/js/animations.js"></script>
+
 </body>
 </html>

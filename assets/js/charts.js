@@ -1,29 +1,45 @@
-let revenueChart;
-function updateRevenueChart(projection){
-    const ctx = document.getElementById('revenueChart').getContext('2d');
+let revenueChartInstance;
 
-    const labels = projection.map(p => `Month ${p.month}`);
-    const totals = projection.map(p => parseFloat(p.total));
+function renderChart(projections) {
 
-    if(revenueChart) revenueChart.destroy();
+    const isProUser = localStorage.getItem("isProUser") === "true";
 
-    revenueChart = new Chart(ctx, {
+    if (!isProUser) {
+        alert("Charts are available in Pro mode.");
+        return;
+    }
+
+    const ctx = document
+        .getElementById("revenueChart")
+        .getContext("2d");
+
+    if (revenueChartInstance) {
+        revenueChartInstance.destroy();
+    }
+
+    revenueChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: projections.map(p => `Month ${p.month}`),
             datasets: [{
-                label: 'Total Revenue ($)',
-                data: totals,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
+                label: "Projected Revenue",
+                data: projections.map(p => p.totalRevenue),
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: true
+                    labels: { color: "#f1f5f9" }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "#f1f5f9" }
+                },
+                y: {
+                    ticks: { color: "#f1f5f9" }
                 }
             }
         }

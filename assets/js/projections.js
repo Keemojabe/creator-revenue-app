@@ -1,43 +1,48 @@
-document.getElementById('calculateBtn').addEventListener('click', function() {
-    const views = parseFloat(document.getElementById('views').value) || 0;
-    const cpm = parseFloat(document.getElementById('cpm').value) || 0;
-    const affiliateCtr = parseFloat(document.getElementById('affiliateCtr').value) || 0;
-    const conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
-    const productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
-    const brandDeals = parseFloat(document.getElementById('brandDeals').value) || 0;
-    const brandRate = parseFloat(document.getElementById('brandRate').value) || 0;
-    const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
+// Pro Access Flag
+const isProUser = localStorage.getItem("isProUser") === "true";
 
-    const months = 12;
-    let monthViews = views;
-    const projection = [];
+function generateProjection(data) {
 
-    for(let i=1; i<=months; i++){
-        const adRevenue = (monthViews / 1000) * cpm;
-        const affiliateRevenue = monthViews * (affiliateCtr/100) * (conversionRate/100) * productPrice;
-        const brandRevenue = brandDeals * brandRate;
-        const total = adRevenue + affiliateRevenue + brandRevenue;
+    const months = isProUser ? 12 : 3;
 
-        projection.push({
+    let monthViews = data.views;
+    const results = [];
+
+    for (let i = 1; i <= months; i++) {
+
+        const adRevenue =
+            (monthViews / 1000) * data.cpm;
+
+        const affiliateRevenue =
+            monthViews *
+            (data.affiliateCtr / 100) *
+            (data.conversionRate / 100) *
+            data.productPrice;
+
+        const sponsorshipRevenue =
+            data.brandDeals * data.brandFee;
+
+        const totalRevenue =
+            adRevenue +
+            affiliateRevenue +
+            sponsorshipRevenue;
+
+        results.push({
             month: i,
-            adRevenue: adRevenue,
-            affiliateRevenue: affiliateRevenue,
-            brandRevenue: brandRevenue,
-            total: total.toFixed(2)
+            views: monthViews,
+            adRevenue,
+            affiliateRevenue,
+            sponsorshipRevenue,
+            totalRevenue
         });
 
-        // Increase views by growth rate
-        monthViews *= (1 + growthRate/100);
+        // Grow views for next month
+        monthViews *= (1 + data.growthRate);
     }
 
-    // Display numeric results
-    let resultsHTML = '<ul>';
-    projection.forEach(p => {
-        resultsHTML += `<li>Month ${p.month}: Total Revenue $${p.total}</li>`;
-    });
-    resultsHTML += '</ul>';
-    document.getElementById('projectionResults').innerHTML = resultsHTML;
+    if (!isProUser) {
+        alert("Upgrade to Pro to unlock full 12-month forecasting.");
+    }
 
-    // Update chart
-    updateRevenueChart(projection);
-});
+    return results;
+}
